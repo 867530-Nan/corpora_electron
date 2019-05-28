@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
     <WeatherStation msg="Matt's Weather Station"/>
   </div>
 </template>
