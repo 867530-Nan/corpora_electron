@@ -2,7 +2,7 @@
   <div class="home">
     <WeatherStation msg="Matt's Weather Station"/>
     <ul>
-      <li v-for="item in languages" :key="item">{{item.name}}</li>
+      <li v-for="item in languages" :key="item.name">{{item.name}}</li>
     </ul>
   </div>
 </template>

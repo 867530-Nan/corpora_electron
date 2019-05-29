@@ -2,7 +2,7 @@
 
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
-import { spawn } from 'child_process'
+import { spawn, execFile } from 'child_process'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -59,10 +59,17 @@ app.on('activate', () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-async function createBackendServer() {
+async function createDevServer() {
   const route = __dirname + '/../backend/corpora/manage.py'
   const backendServer = await spawn('python3', [route, 'runserver'])
   return backendServer
+}
+
+async function createProductionServer() {
+  // first attempt below.. to be continued..
+  // const route = __dirname + '/manage/manage'
+  // const backendServer = await execFile(route)
+  // return backendServer
 }
 
 app.on('ready', async () => {
@@ -74,15 +81,25 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  createBackendServer()
-    .then(res => {
-      console.log('success')
-      createWindow()
-    })
-    .catch(res => {
-      console.log('failure')
-      createBackendServer()
-    })
+  process.env.NODE_ENV === 'production'
+    ? createProductionServer()
+        .then(res => {
+          console.log('success prod')
+          createWindow()
+        })
+        .catch(res => {
+          console.log('failure prod')
+          createProductionServer()
+        })
+    : createDevServer()
+        .then(res => {
+          console.log('success dev')
+          createWindow()
+        })
+        .catch(res => {
+          console.log('failure dev')
+          createDevServer()
+        })
 })
 
 // Exit cleanly on request from parent process in development mode.
