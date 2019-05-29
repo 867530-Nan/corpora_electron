@@ -1,10 +1,8 @@
 'use strict'
 
 import { app, protocol, BrowserWindow } from 'electron'
-import {
-  createProtocol,
-  installVueDevtools
-} from 'vue-cli-plugin-electron-builder/lib'
+import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
+import { spawn } from 'child_process'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -12,13 +10,19 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let win
 
 // Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: { secure: true, standard: true } }])
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'app', privileges: { secure: true, standard: true } }
+])
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 600, webPreferences: {
-    nodeIntegration: true
-  } })
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -55,6 +59,12 @@ app.on('activate', () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+async function createBackendServer() {
+  const route = __dirname + '/../backend/corpora/manage.py'
+  const backendServer = await spawn('python3', [route, 'runserver'])
+  return backendServer
+}
+
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
@@ -64,7 +74,15 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  createWindow()
+  createBackendServer()
+    .then(res => {
+      console.log('success')
+      createWindow()
+    })
+    .catch(res => {
+      console.log('failure')
+      createBackendServer()
+    })
 })
 
 // Exit cleanly on request from parent process in development mode.

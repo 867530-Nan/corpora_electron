@@ -6,8 +6,8 @@ import axios from 'axios'
 import './registerServiceWorker'
 
 Vue.config.productionTip = false
-Vue.http = Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://api.openweathermap.org/data/2.5'
+// Vue.http = Vue.prototype.$http = axios
+// axios.defaults.baseURL = 'http://api.openweathermap.org/data/2.5'
 new Vue({
   router,
   store,
