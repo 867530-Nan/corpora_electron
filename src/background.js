@@ -61,6 +61,7 @@ app.on('activate', () => {
 // Some APIs can only be used after this event occurs.
 async function createDevServer() {
   const route = __dirname + '/../backend/corpora/manage.py'
+  console.log(route)
   const backendServer = await spawn('python3', [route, 'runserver'])
   return backendServer
 }

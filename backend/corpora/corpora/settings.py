@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default="applesauce")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,10 +88,10 @@ WSGI_APPLICATION = 'corpora.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('DB_NAME', default="literacy_loom"),
+        'USER': config('DB_USER', default="generic_user"),
+        'PASSWORD': config('DB_PASSWORD', default="password"),
         'HOST': config('DB_HOST', default='localhost'),
         'PORT': config('DB_PORT', default='5432'),
     }
@@ -137,7 +137,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS=True
-CORS_ORIGIN_WHITELIST=('localhost:8080')
-CORS_ORIGIN_REGEX_WHITELIST=('localhost:8080')
-ALLOWED_HOSTS = ['http://localhost:8080/','localhost']
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = ('localhost:8080')
+CORS_ORIGIN_REGEX_WHITELIST = ('localhost:8080')
+ALLOWED_HOSTS = ['http://localhost:8080/', 'localhost']

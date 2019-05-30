@@ -1,0 +1,23 @@
+<template>
+  <StyledDiv class="home" height="418px" minHeight="700px">
+    <StyledHeader margin="0 5px" class="read-header">Literacy Loom</StyledHeader>
+  </StyledDiv>
+</template>
+
+<script>
+import { StyledDiv, StyledHeader } from "../components/styled/index";
+
+export default {
+  name: "home",
+  components: { StyledDiv, StyledHeader }
+};
+</script>
+
+<style>
+.home {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

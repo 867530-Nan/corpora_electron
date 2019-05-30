@@ -1,23 +1,29 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Weather from './views/Weather.vue'
+import Home from './containers/Home.vue'
+import Uploads from './containers/Uploads'
+import Recommender from './containers/Recommender'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
-      name: 'Weather',
-      component: Weather
+      name: 'home',
+      component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/uploads',
+      name: 'Uploads',
+      component: Uploads
+    },
+    {
+      path: '/recommender',
+      name: 'Recommender',
+      component: Recommender
     }
   ]
 })
